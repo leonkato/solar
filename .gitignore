@@ -1,13 +1,13 @@
-# emacs editor backup
-*.~
+# emacs editor backups and lock files
+*~
+\#*#
+.#*
 
-# files to stay here
+# data lives here, outside version control (see DATA.md)
 local
 
 # Jupyter Notebook
-.ipynb_checkpoints
-
-
-#Ipython
 .ipynb_checkpoints/
 
+# scratch CSVs some notebooks write next to themselves
+*.csv
