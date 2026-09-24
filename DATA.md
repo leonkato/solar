@@ -77,7 +77,8 @@ TTSX_..._p1.xlsx + p2.xlsx
 
 | Notebooks | Input | Status |
 |---|---|---|
-| `model/model_08_random_forest`, `model_median_*`, `mod_med_3f_*` | `model_data_2.csv` | runs end to end (smoke-tested with synthetic data) |
+| `model/model_08_random_forest`, `model_median_01`, `model_median_02`, `mod_med_3f_*` | `model_data_2.csv` | runs end to end (smoke-tested with synthetic data) |
+| `model/model_median_no_poly_exclusion` | `model_data_2.csv` | runs, except cells 43–53: they use a grid search (cell 30) that was switched to a raw cell to skip its ~30 min run. Change it back to code to run them. |
 | `model/predictions` | `model_data_2.csv`, `mod_pred_data.csv` | runs end to end. It rebuilds the prediction grid if `mod_pred_data.csv` is missing, but the grid's two states are a guess (CA, AZ). |
 | `wrangle/first_look_TTS`, `tts_2nd_look` | raw xlsx / `TTS.csv` | inputs exist; not test-run (slow: reads 280 MB of Excel) |
 | `wrangle/tts_5`, `tts_6` | `live_20180118` | inputs exist; not test-run |
