@@ -39,9 +39,9 @@ local/data/LBNL_openpv_tts_data/
   live20180119.csv                       226,627,007   missing, regenerable
   ttsclean20180119.csv                   190,295,601   missing, regenerable
   ttsclean20180123.csv                   187,478,829   missing, regenerable
-  ttsclean20180127.csv                   191,418,461   missing
-  ModelData.csv                                    ?   missing
-  ModelAll.csv                                     ?   missing
+  ttsclean20180127.csv                   191,418,461   missing, regenerable
+  ModelData.csv                                    ?   missing, regenerable
+  ModelAll.csv                                     ?   missing, regenerable
   model_data_2.csv                        23,258,820   present, but saved without the
                                                        .csv extension and without the
                                                        state column (see below)
@@ -54,12 +54,10 @@ up each row's state in `live_20180118` by `row_id` and only rewrites the file
 if every row matches on date and size. With the state restored, the notebooks
 reproduce their saved 2018 results (see "What runs" below).
 
-`model/predictions.ipynb` also reads `model/mod_pred_data.csv`, a grid of
-future dates × size groups × states "built separately". It isn't in the repo,
-but a copy survives next to the original working notebooks (along with
-`make_prediction_data.ipynb`, which built it); put it in `model/`. If it's
-missing, the notebook rebuilds a grid with the same layout (84 quarter-end
-dates × 3 size groups × 2 states), but the two states are a guess (CA, AZ).
+The prediction grid, `model/mod_pred_data.csv` (84 quarter-end dates × 3 size
+groups × CA and TX), and its input `model/prediction_times.csv` are small
+enough to live in the repo. `model/make_prediction_dates` and
+`make_prediction_data` rebuild both exactly.
 
 ## Lineage
 
@@ -69,13 +67,20 @@ TTSX_..._p1.xlsx + p2.xlsx
        └─ (step not in any saved notebook) ──► live_20180118
             └─ wrangle/tts_6 ──► live20180119.csv, ttsclean20180119.csv
                  └─ wrangle/tts_9 ──► ttsclean20180123.csv
-                      └─ (step not saved) ──► ttsclean20180127.csv
+                      └─ story/tts_cost_dependence_orig ──► ttsclean20180127.csv
                            └─ model/model_01 ──► ModelData.csv
+                                ├─ model/model_02_raw ──► ModelAll.csv
+                                │    └─ model_02–04, model_05a_ridge_17, model_06_lasso_b
                                 └─ model/make_modeling_data ──► model_data_2.csv
-                                     └─ model_08, model_median_*, mod_med_3f_*, predictions
+                                     └─ model_08, model_median_*, mod_med_3f_*,
+                                        predictions, report_support
 
-(no saved notebook writes ModelAll.csv; it's read by model_02–04, 05a, 06)
+model/make_prediction_dates ──► prediction_times.csv
+  └─ model/make_prediction_data ──► mod_pred_data.csv ──► predictions, report_support
 ```
+
+`story/tts_cost_dependence_hack` is a variant of `_orig` that writes the same
+file; which of the two produced the surviving results isn't recorded.
 
 `model_data_2.csv` has 364,212 rows (installations from 1998-01-09 to
 2016-12-31) with these columns: `row_id` (index), `num_days`, `num_weeks`,
@@ -88,11 +93,14 @@ TTSX_..._p1.xlsx + p2.xlsx
 | `model/model_08_random_forest`, `model_median_01`, `model_median_02`, `mod_med_3f_*` | `model_data_2.csv` (with state restored) | verified on the real data in 2026: reproduces the 2018 results (see below) |
 | `model/model_median_no_poly_exclusion` | `model_data_2.csv` | runs, except cells 43–53: they use a grid search (cell 30) that was switched to a raw cell to skip its ~30 min run. Change it back to code to run them. |
 | `model/predictions` | `model_data_2.csv`, `mod_pred_data.csv` | verified on the real data in 2026 |
+| `model/make_prediction_dates`, `make_prediction_data` | none / `prediction_times.csv` | verified in 2026: rebuild both CSVs exactly |
 | `wrangle/first_look_TTS`, `tts_2nd_look` | raw xlsx / `TTS.csv` | inputs exist; not test-run (slow: reads 280 MB of Excel) |
 | `wrangle/tts_5`, `tts_6` | `live_20180118` | inputs exist; not test-run |
 | `wrangle/tts_7`, `tts_9`, `story/tts_story_boolean` | `ttsclean20180119/23` | after rerunning `tts_6` / `tts_9` |
-| `model/model_01`, `story/tts_story_01`, `story/stat_sig` | `ttsclean20180127.csv` | missing input |
-| `model/model_02`–`06`, `make_modeling_data` | `ModelAll.csv` / `ModelData.csv` | missing input |
+| `story/tts_cost_dependence_orig` | `ttsclean20180123.csv` | after rerunning `tts_6` / `tts_9`; writes `ttsclean20180127.csv` |
+| `model/model_01`, `story/tts_story_01`, `story/stat_sig`, `story/cap_support` | `ttsclean20180127.csv` | after regenerating it; not test-run |
+| `model/model_02_raw`, `make_modeling_data` | `ModelData.csv` | after rerunning `model_01`; not test-run |
+| `model/model_02`–`06` | `ModelAll.csv` | after rerunning `model_02_raw`; not test-run |
 | `archive/**` | older OpenPV dataset | not maintained; the data is gone |
 
 The older OpenPV intermediates `20180105` and `thing0108` survive in
@@ -113,3 +121,9 @@ The eight notebooks above were rerun on the real data with the versions in
   of 13 (0.748); `model_median_02` picks degree 7 (0.865) instead of 8 (0.863).
   The split is fixed, so this is newer numpy/scipy solving an ill-conditioned
   fit differently. The lab notes already flagged the monthly model as unstable.
+
+The prediction-grid notebooks were rerun too and rebuild `prediction_times.csv`
+and `mod_pred_data.csv` identically. That run caught a silent pandas change:
+subtracting two `Period`s now returns an offset (`<12 * Weeks>`) rather than a
+number, so week and month counts are now taken with `.n` (in
+`make_prediction_dates`, `make_modeling_data` and `story/stat_sig`).

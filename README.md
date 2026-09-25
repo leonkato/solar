@@ -32,15 +32,18 @@ through 2018. [`model/README.md`](model/README.md) has the full lab notes.
 wrangle/   load the raw TTS xlsx, clean it, write the modelling CSVs
 story/     exploratory analysis and the "data story" notebooks
 model/     modelling experiments, the final prediction comparison, lab notes
-docs/      proposal, milestone report, final report, slides
+docs/      proposal, milestone report, final report (PDF and .docx), slides, figures/
 archive/   superseded notebooks (older OpenPV dataset, scratch work, early model iterations)
 DATA.md    where the data came from, expected files and sizes, and the lineage
 ```
 
 Reading order: `wrangle/first_look_TTS` → `tts_2nd_look` → `tts_5` → `tts_6`
-→ `tts_7` → `tts_9` → `story/tts_story_01` → `tts_story_boolean` → `stat_sig`
-→ `model/model_01` → `make_modeling_data` → `model_02`…`08` → `model_median_01`
-→ `model_median_02` → `mod_med_3f_*` → `predictions`.
+→ `tts_7` → `tts_9` → `story/tts_cost_dependence_orig` → `tts_story_01` →
+`tts_story_boolean` → `stat_sig` → `model/model_01` → `model_02_raw` →
+`make_modeling_data` → `model_02`…`08` → `model_median_01` → `model_median_02`
+→ `mod_med_3f_*` → `make_prediction_dates` → `make_prediction_data` →
+`predictions`. `model/report_support`, `report_text` and `story/cap_support`
+produce the figures and text for the final report.
 
 ## Running it
 
