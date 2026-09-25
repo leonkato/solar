@@ -55,10 +55,10 @@ jupyter lab
 
 The notebooks were written for Python 3.6 (pandas 0.22, scikit-learn 0.19) and
 have been updated for current library versions. Saved outputs are still the
-original 2018 results, so a rerun can be compared against them. Only the
-`model/` notebooks that read `model_data_2.csv` have been test-run on the new
-versions, and that was against synthetic data. The others got the same
-mechanical updates but haven't been run.
+original 2018 results, so a rerun can be compared against them. The `model/`
+notebooks that read `model_data_2.csv` were rerun on the real data in 2026 and
+reproduce the 2018 results (details in [`DATA.md`](DATA.md#2026-verification)).
+The others got the same mechanical updates but haven't been run.
 
 Notebooks in `archive/` weren't updated and their data paths are one level off.
 They're kept for the record.
