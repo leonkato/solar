@@ -1,0 +1,11 @@
+# Versions the model/ notebooks were smoke-tested against (Python 3.11).
+# The notebooks were originally written for Python 3.6 with pandas ~0.22 and scikit-learn ~0.19.
+numpy==2.4.6
+pandas==3.0.6
+scikit-learn==1.9.1
+scipy==1.17.1
+statsmodels==0.15.0
+matplotlib==3.11.2
+seaborn==0.13.2
+openpyxl>=3.1      # pd.read_excel in wrangle/first_look_TTS
+jupyterlab
