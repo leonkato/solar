@@ -59,7 +59,7 @@ future dates × size groups × states "built separately". It isn't in the repo,
 but a copy survives next to the original working notebooks (along with
 `make_prediction_data.ipynb`, which built it); put it in `model/`. If it's
 missing, the notebook rebuilds a grid with the same layout (84 quarter-end
-dates × 3 size groups × 2 states), but the two states are a guess (CA, AZ).
+dates × 3 size groups × 2 states: CA and TX, as in the original file).
 
 ## Lineage
 
