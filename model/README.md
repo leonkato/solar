@@ -10,6 +10,12 @@ have since moved to `archive/model/` are listed in the table below.
 
 The `mod_med_3f_*` notebooks are the ones the notes call `model_median_03f_*`.
 
+Recovered in 2026 from the original working folder (not in the notes below):
+`model_02_raw` (builds `ModelAll.csv` from `ModelData.csv`),
+`make_prediction_dates` and `make_prediction_data` (build the prediction grid),
+`report_support` and `report_text` (figures and text for the final report).
+`modl_med_02-ridge`, `p2` and `itch` are in `archive/model/`.
+
 ---
 
 * make\_modeling_data: build some preprocessing into the dataset
