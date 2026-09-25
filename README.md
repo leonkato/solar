@@ -58,10 +58,11 @@ jupyter lab
 
 The notebooks were written for Python 3.6 (pandas 0.22, scikit-learn 0.19) and
 have been updated for current library versions. Saved outputs are still the
-original 2018 results, so a rerun can be compared against them. The `model/`
-notebooks that read `model_data_2.csv` were rerun on the real data in 2026 and
-reproduce the 2018 results (details in [`DATA.md`](DATA.md#2026-verification)).
-The others got the same mechanical updates but haven't been run.
+original 2018 results, so a rerun can be compared against them. In 2026 the
+whole chain from `live_20180118` to `model_data_2.csv`, and every modelling and
+story notebook that reads from it, was rerun on the real data and reproduces
+the 2018 results (details in [`DATA.md`](DATA.md#2026-verification)). Not yet
+rerun: `wrangle/first_look_TTS`, `tts_2nd_look`, `tts_5` and `tts_7`.
 
 Notebooks in `archive/` weren't updated and their data paths are one level off.
 They're kept for the record.
